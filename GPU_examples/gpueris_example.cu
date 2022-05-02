@@ -1,9 +1,27 @@
-/* Code example for the evaluation of quantum Chemical Electron Repulsion 
+/*-----------------------------------------------------------------------------
+ ------------------------------------------------------------------------------
+   Code example for the evaluation of quantum Chemical Electron Repulsion 
    Integrals solved analytically through Obara and Saika's Recurrence eqs.
+
+   This Electron Repulsion Integrals (ERIs) integrate the coulombic interaction
+   between every electron in a molecule. This integrals can be analliticaly 
+   solved using gaussian functions. Hence GPU general purpose programming was 
+   used to speed up of the evaluations of the ERIs. 
+
+   *NOTE!!!: I'm not the only owner of the following code, for that reason just 
+   	     partial code will be presented.
    
-   Martin Head‐Gordon and John A. Pople, A method for two‐electron Gaussian
-   integral and integral derivative evaluation using recurrence relations, 
-   J. Chem. Phys. 89, 5777-5786 (1988) https://doi.org/10.1063/1.455553
+   References:
+   
+  1 -Martin Head‐Gordon and John A. Pople, A method for two‐electron Gaussian
+    integral and integral derivative evaluation using recurrence relations, 
+    J. Chem. Phys. 89, 5777-5786 (1988) https://doi.org/10.1063/1.455553
+
+  2 -Accelerating Density Functional Calculations with Graphics Processing Unit
+    Koji Yasuda
+    Journal of Chemical Theory and Computation 2008 4 (8), 1230-1236
+    DOI: 10.1021/ct8001046
+
 
 Author: Alfonso Esqueda García, esqueda.alfonso.94@gmail.com
 Year: 2018
@@ -284,7 +302,23 @@ __device__ void boysfunc(int m, double& t, double* fis,// vector with F(i)T
 // ---------------------------------------------------------------------------#
 // ---------------------------------------------------------------------------#
 
+/*
 
+   Due to propietary rights the following function is just an example of how to
+   compute a PRIMITE ERI which in turn will contribute to a CONTRACTED ERI using
+   the prim2contr function present earlier in this file. Once we calculate all
+   CONTRATED ERIs we can contribute them to a Matrix called <Fock Matrix>. 
+
+   ...Finally a program uses this so called Fock Matrix to calculate the WAVE
+   FUNCTION of a chemical compound... 
+   
+  ----------------
+  Among the missing parts of codes is a python script that automatically
+  generates every function to calculate every type of ERI (yes, there's various
+  types) and automatic code generators to the CALLER FUNCTIONS (C++ functions 
+  which call one of the GPU functions available in this file).
+
+*/
 
 // AEG: Function to compute a three center integral of the type (ss|p) -------#
 //      using the formula obtained from aplying the OS RR method. ------------#
